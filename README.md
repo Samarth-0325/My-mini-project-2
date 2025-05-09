@@ -1,67 +1,100 @@
 # My-mini-project-2
 
-#include <iostream>
+ #include <iostream>
 #include <string>
-#include <map>
+#include <vector>
+using namespace std; 
 
-using namespace std;
+class subject {
+    public:
+    string subjectname;
+    int credit;
+    float gradepoint;
 
-char calculateGrade(int marks)
+    //contructor
+    subject(string name, int cr, int gp)
+    {
+        subjectname=name;
+        credit = cr;
+        gradepoint = gp;
+    }
+
+};
+
+class student{
+    public:
+    string name;
+    vector<subject>subjects;
+    //constructor
+ 
+    student(string studentname)
+    {
+        name=studentname;
+    }
+    void addSubject(string subjectName, int credit, float gradepoint)
+    {
+        subject newsubject(subjectName, credit, gradepoint);
+        subjects.push_back(newsubject);
+    }  float calculatecgpa()
+    {
+        int totalcredit=0;
+        float weightgradepoint;
+
+        for (const subject & subject : subjects)
+        {
+            totalcredit+=subject.credit;
+            weightgradepoint+=subject.credit*subject.gradepoint;
+        }
+        return (totalcredit>0)?(weightgradepoint/totalcredit):0;
+    }
+
+    void displaycgpa()
+    {
+        cout << "student Name " << name << endl;
+        float cgpa=calculatecgpa();
+        cout << "CGPA c" << cgpa << endl;
+    }
+   // void addSubject(string subjectname, int credits, float gradepoint);
+    
+};
+
+
+int main (){
+
+    string studentname;
+    int numsub;
+
+    cout << "Enter the name of student ";
+    getline (cin,studentname);
+
+    cout << "Enter the number of subjects ";
+    cin >> numsub;
+    student student(studentname);
+
+    for(int i = 0; i < numsub; i++)
 {
+    string subjectname;
+    int credit;
+    float gradepoint;
 
-    if (marks >= 60)
-        return 'A';
+    cout << "Enter the subject name ";
 
-    else if (marks >= 50)
-        return 'B';
+    cin.ignore();
 
-         else if (marks >= 40)
-          return 'C';
-         
+    getline(cin,subjectname);
 
-    else if (marks >= 30)
-        return 'D';
+    cout << "Enter the credit ";
+    cin >> credit;
 
-    else if (marks >= 23)
-        return 'E';
+    cout << "Enter the Gradepoint ";
+    cin >> gradepoint; 
+    student.addSubject(subjectname, credit, gradepoint);
 
-    else
-        return 'F';
+    
 }
+student . displaycgpa ();
 
-void studentgradesystem() {
-    string studentName;
-    cout << "Enter Student Name :";
-    getline(cin,studentName);
 
-    int totalnumberofSub = 5;
 
-    map<string, float > studentmarks;
-    string subname;
-    float submarks;
-    float totalmarks = 0;
-
-    for(int x = 0; x < totalnumberofSub; x++) {
-        cout << endl;
-        cout << "Enter Subject name :";
-        cin>>subname;
-        cout << "Enter Subject marks :";
-        cin>>submarks;
-        studentmarks[subname] = submarks;
-        totalmarks += submarks;
-    }
-
-    cout <<"/n----------------------------" << endl;
-    cout << "student Result :- " << endl;
-    for(auto sub : studentmarks){
-        cout << sub.first << " : " << sub.second << " --->" << calculateGrade (sub.second) << endl;
-    }
-
-    cout << "Total Marks : " << totalmarks << endl;
-}
-
-int main() {
-    studentgradesystem();
-    cout << endl;
     return 0;
 }
